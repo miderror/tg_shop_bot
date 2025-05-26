@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='shop_app' %}">Shop App</a>
+    &rsaquo; <a href="{% url 'admin:shop_app_mailing_changelist' %}">{% translate 'Mailings' %}</a>
+    &rsaquo; <a href="{% url 'admin:shop_app_mailing_change' mailing.pk %}">{{ mailing }}</a>
+    &rsaquo; {% translate 'Confirm Send Mailing' %}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <form action="" method="post">{% csrf_token %}
+        <p>{% translate "Вы уверены, что хотите начать рассылку" %} "{{ mailing }}"?</p>
+        <p>{% translate "Сообщение будет отправлено" %}:<br>
+           <b>{{ mailing.message_text|truncatechars:200 }}</b>
+           {% if mailing.photo %} (с изображением) {% endif %}
+        </p>
+
+        <div class="submit-row">
+            <input type="hidden" name="action" value="send_mailing" />
+            <input type="submit" value="{% translate 'Да, начать рассылку' %}" />
+        </div>
+    </form>
+</div>
+{% endblock %}
