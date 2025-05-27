@@ -132,7 +132,7 @@ async def _get_delete_mode_keyboard(
     return builder.as_markup()
 
 
-@router.callback_query(DeleteCartCallback.filter(F.cart_item_id.is_(None) and F.delete_all.is_(False)))
+@router.callback_query(DeleteCartCallback.filter(F.cart_item_id.is_(None) & F.delete_all.is_(False)))
 async def prompt_delete_cart_items(callback: CallbackQuery, state: FSMContext, tg_user: TelegramUser,
                                    callback_data: DeleteCartCallback):
     cart_items, _ = await _get_cart_items_and_total_price(tg_user)
